@@ -1,104 +1,57 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import { cards } from "./cards";
 import { supabase } from "./supabase";
 
-const SHUFFLE_LINES = [
-  "Consulting the chaos...",
-  "Looking for something annoyingly relevant...",
-  "Interrupting your overthinking...",
-  "Gathering evidence...",
-  "One moment while the deck becomes nosy...",
-  "Your brain called. The deck answered instead.",
-];
-
 export default function App() {
-  const [screen, setScreen] = useState("home");
+  const [screen, setScreen] = useState("deck");
   const [card, setCard] = useState(null);
   const [email, setEmail] = useState("");
   const [savedCards, setSavedCards] = useState([]);
-  const [shuffleText, setShuffleText] = useState("");
-
-  // 🧠 load remembered email once
-  useEffect(() => {
-    const savedEmail = localStorage.getItem("rebellion_email");
-    if (savedEmail) setEmail(savedEmail);
-  }, []);
 
   const drawCard = () => {
     setCard(null);
     setScreen("shuffling");
 
-    let i = 0;
-    const interval = setInterval(() => {
-      setShuffleText(SHUFFLE_LINES[i % SHUFFLE_LINES.length]);
-      i++;
-    }, 300);
-
     setTimeout(() => {
-      clearInterval(interval);
       const random = Math.floor(Math.random() * cards.length);
       setCard(cards[random]);
       setScreen("card");
-    }, 1600);
+    }, 1200);
   };
 
-  const goHome = () => {
-    setScreen("home");
+  const goDeck = () => {
+    setScreen("deck");
     setCard(null);
   };
 
-  const goEvidence = async () => {
-    if (!email) {
-      setScreen("save");
-      return;
-    }
-
-    const { data, error } = await supabase
+  const loadPersonalDeck = async () => {
+    const { data } = await supabase
       .from("saved_cards")
       .select("*")
-      .eq("email", email)
-      .order("id", { ascending: false });
-
-    if (error) {
-      console.error(error);
-      alert("Could not load Evidence");
-      return;
-    }
+      .order("created_at", { ascending: false });
 
     setSavedCards(data || []);
-    setScreen("evidence");
+    setScreen("personal");
   };
 
   const saveCard = async () => {
-  if (!email) {
-    setScreen("save");
-    return;
-  }
+    const { error } = await supabase.from("saved_cards").insert([
+      {
+        email: email,
+        card_voice: card.voice,
+        card_text: card.text,
+      },
+    ]);
 
-  localStorage.setItem("rebellion_email", email);
+    if (error) {
+      alert("Save failed");
+      console.error(error);
+      return;
+    }
 
-  const { error } = await supabase.from("saved_cards").insert([
-    {
-      email: email,
-      card_voice: card.voice,
-      card_text: card.text,
-    },
-  ]);
-
-  if (error) {
-    console.error(error);
-    alert("Save failed");
-    return;
-  }
-
-  setScreen("home");
-  setCard(null);
-};
-
-  const reuseEmail = () => {
-    const savedEmail = localStorage.getItem("rebellion_email");
-    if (savedEmail) setEmail(savedEmail);
+    setEmail("");
+    setScreen("deck");
   };
 
   return (
@@ -106,19 +59,21 @@ export default function App() {
 
       <h1 className="title">THE REBELLION DECK</h1>
 
-      {/* HOME */}
-      {screen === "home" && (
+      {/* DECK SCREEN */}
+      {screen === "deck" && (
         <>
           <div className="intro">
-            <p>The deck has opinions today.</p>
+            <p>Tiny acts of courage.</p>
+            <p>Unexpected perspective shifts.</p>
+            <p>Reminders of who you are.</p>
           </div>
 
           <div className="deck" onClick={drawCard}>
-            SHOW ME
+            TOUCH THE DECK
           </div>
 
-          <button onClick={goEvidence}>
-            Evidence
+          <button onClick={loadPersonalDeck}>
+            Your deck
           </button>
         </>
       )}
@@ -126,87 +81,65 @@ export default function App() {
       {/* SHUFFLING */}
       {screen === "shuffling" && (
         <div className="deck shuffling">
-          {shuffleText}
+          Shuffling...
         </div>
       )}
 
-      {/* CARD */}
+      {/* CARD VIEW */}
       {screen === "card" && card && (
         <>
           <div className="card">
             <div className="card-voice">{card.voice}</div>
             <div className="card-text">{card.text}</div>
-
-            <div className="reaction">
-              Well, that's awkwardly accurate.
-            </div>
           </div>
 
           <div className="controls">
             <button onClick={drawCard}>
-              Another perspective
+              What else do I need to see?
             </button>
 
-            <button onClick={() => setScreen("save")}>
-  This landed
-</button>
+            <button onClick={saveCard}>
+              Save this card
+            </button>
 
-            <button onClick={goHome}>
+            <button onClick={goDeck}>
               Back
             </button>
           </div>
         </>
       )}
 
-      {/* SAVE (EMAIL ONLY FIRST TIME) */}
-      {screen === "save" && card && (
-        <div className="save-screen">
-
-          <div className="card-preview">
-            <div className="card-voice">{card.voice}</div>
-            <div className="card-text">{card.text}</div>
-          </div>
-
-          <p className="save-text">
-            Add it to Evidence so you can find it again later.
-          </p>
-
-          <input
-            type="email"
-            placeholder="Your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <button onClick={saveCard}>
-            Add to Evidence
-          </button>
-
-        </div>
-      )}
-
-      {/* EVIDENCE */}
-      {screen === "evidence" && (
+      {/* PERSONAL DECK — FAN VIEW */}
+      {screen === "personal" && (
         <div className="personal-deck">
 
-          <h2>Evidence</h2>
+          <h2>Your Deck</h2>
 
           <p className="personal-message">
-            You've been collecting clues.
+            These are the patterns you’ve been returning to.
           </p>
 
-          <button onClick={goHome}>Back</button>
+          <button onClick={goDeck}>Back</button>
 
           {savedCards.length === 0 && (
-            <p>No evidence yet. The story is just starting.</p>
+            <p>No cards yet. Your deck is still becoming itself.</p>
           )}
 
-          {savedCards.map((c, i) => (
-            <div key={i} className="saved-card">
-              <div className="card-voice">{c.card_voice}</div>
-              <div className="card-text">{c.card_text}</div>
-            </div>
-          ))}
+          <div className="fan">
+            {savedCards.map((c, i) => (
+              <div
+                key={i}
+                className="fan-card"
+                style={{
+                  transform: `rotate(${(i - savedCards.length / 2) * 6}deg)`,
+                  zIndex: i,
+                }}
+              >
+                <div className="card-voice">{c.card_voice}</div>
+                <div className="card-text">{c.card_text}</div>
+              </div>
+            ))}
+          </div>
 
         </div>
       )}
