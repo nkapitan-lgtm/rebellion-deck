@@ -1,0 +1,569 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at center, #0b0b10, #050507);
+  color: white;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 22px;
+  letter-spacing: 3px;
+  margin: 0;
+}
+
+.intro {
+  text-align: center;
+  opacity: 0.85;
+  line-height: 1.8;
+  max-width: 420px;
+}
+
+/* DECK AND CARD SAME SIZE */
+
+.deck,
+.card {
+  width: 380px;
+  height: 520px;
+  border-radius: 24px;
+  box-sizing: border-box;
+}
+
+/* DECK */
+
+.deck {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  cursor: pointer;
+
+  background: linear-gradient(
+    145deg,
+    #1a1a25,
+    #0d0d14
+  );
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,0.7);
+
+  transition:
+    transform 0.25s ease;
+}
+
+.deck:hover {
+  transform:
+    translateY(-4px)
+    rotate(-1deg);
+}
+
+/* STACK CARD #2 */
+
+.deck::before {
+  content: "";
+
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 24px;
+
+  background: linear-gradient(
+    145deg,
+    #15151f,
+    #0a0a10
+  );
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  top: 10px;
+  left: 10px;
+
+  z-index: -1;
+}
+
+/* STACK CARD #3 */
+
+.deck::after {
+  content: "";
+
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 24px;
+
+  background: linear-gradient(
+    145deg,
+    #101018,
+    #08080c
+  );
+
+  border: 1px solid rgba(255,255,255,0.05);
+
+  top: 20px;
+  left: 20px;
+
+  z-index: -2;
+}
+
+/* CARD */
+
+.card {
+  background: radial-gradient(
+    circle at top,
+    #1a1a25,
+    #0d0d14
+  );
+
+  border: 1px solid rgba(255, 59, 107, 0.25);
+
+  box-shadow:
+    0 25px 80px rgba(0,0,0,0.75);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+
+  text-align: center;
+
+  animation: cardIn 0.6s ease;
+}
+
+.card-voice {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ff3b6b;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.card-text {
+  font-size: 22px;
+  line-height: 1.7;
+  max-width: 280px;
+}
+
+/* CONTROLS OUTSIDE CARD */
+
+.controls {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: white;
+  color: black;
+}
+
+.shuffling {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+}
+
+@keyframes cardIn {
+  0% {
+    opacity: 0;
+    transform: translateY(25px) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.save-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 20px;
+
+  width: 100%;
+  max-width: 520px;
+
+  padding: 40px;
+
+  margin-top: 20px;
+  text-align: center;
+}
+.save-text {
+  opacity: 0.85;
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 360px;
+}
+
+input {
+  width: 280px;
+  padding: 14px;
+
+  border-radius: 12px;
+  border: none;
+
+  outline: none;
+
+  text-align: center;
+
+  font-size: 14px;
+}
+
+.card-preview {
+  width: 360px;
+  height: 480px;
+
+  border-radius: 24px;
+
+  background: radial-gradient(circle at top, #1a1a25, #0d0d14);
+
+  border: 1px solid rgba(255, 59, 107, 0.25);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  box-shadow: 0 25px 80px rgba(0,0,0,0.75);
+}
+.card-preview {
+  width: 380px;
+  height: 520px;
+  border-radius: 24px;
+  background: radial-gradient(circle at top, #1a1a25, #0d0d14);
+  border: 1px solid rgba(255, 59, 107, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.save-text {
+  opacity: 0.85;
+  text-align: center;
+  max-width: 320px;
+}
+
+input {
+  width: 280px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+button {
+  cursor: pointer;
+}
+.save-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  padding: 20px;
+  text-align: center;
+}
+
+.save-text {
+  opacity: 0.85;
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+input {
+  width: 280px;
+  padding: 14px;
+
+  border-radius: 12px;
+  border: none;
+
+  text-align: center;
+  font-size: 14px;
+}
+
+.card-preview {
+  width: 360px;
+  height: 480px;
+
+  border-radius: 24px;
+
+  background: radial-gradient(circle at top, #1a1a25, #0d0d14);
+
+  border: 1px solid rgba(255, 59, 107, 0.25);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  box-shadow: 0 25px 80px rgba(0,0,0,0.75);
+}
+.app {
+  animation: appFade 0.4s ease;
+}
+
+@keyframes appFade {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Screen transitions */
+.deck,
+.card,
+.save-screen {
+  animation: screenIn 0.5s ease;
+}
+
+@keyframes screenIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Shuffling becomes more “attention holding” */
+.shuffling {
+  animation: pulseSlow 1.4s ease-in-out infinite;
+  letter-spacing: 1px;
+}
+
+@keyframes pulseSlow {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+}
+
+/* ===== RITUAL LAYER ===== */
+
+.app {
+  animation: appFade 0.4s ease;
+}
+
+@keyframes appFade {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+/* Screen entrance = emotional arrival */
+.deck,
+.card,
+.save-screen {
+  animation: screenIn 0.6s ease;
+}
+
+@keyframes screenIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Shuffling = attention shift */
+.shuffling {
+  animation: pulseSlow 1.4s ease-in-out infinite;
+  letter-spacing: 1px;
+}
+
+@keyframes pulseSlow {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+}
+
+/* Deck micro-intention text */
+.deck-subtext {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 8px;
+}
+
+/* Save screen layout clarity */
+.save-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  padding: 20px;
+  text-align: center;
+}
+
+.save-text {
+  opacity: 0.85;
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+input {
+  width: 280px;
+  padding: 14px;
+
+  border-radius: 12px;
+  border: none;
+
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Card preview stays grounded */
+.card-preview {
+  width: 360px;
+  height: 480px;
+
+  border-radius: 24px;
+
+  background: radial-gradient(circle at top, #1a1a25, #0d0d14);
+
+  border: 1px solid rgba(255, 59, 107, 0.25);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  box-shadow: 0 25px 80px rgba(0,0,0,0.75);
+}
+.personal-deck {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.saved-card {
+  width: 320px;
+  padding: 20px;
+  border-radius: 16px;
+  background: radial-gradient(circle at top, #1a1a25, #0d0d14);
+  border: 1px solid rgba(255, 59, 107, 0.2);
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.personal-message {
+  opacity: 0.85;
+  font-style: italic;
+  margin-bottom: 20px;
+  text-align: center;
+  max-width: 320px;
+}
+.reaction {
+  margin-top: 12px;
+  font-size: 13px;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.deck {
+  cursor: pointer;
+}
+
+.controls button {
+  margin: 6px;
+}
+
+.intro p {
+  opacity: 0.8;
+}
