@@ -1,14 +1,15 @@
 /* =========================
-   SUNLIT ORACLE — CARD PROPORTION FIX
+   SUNLIT ORACLE — FINAL STRUCTURE FIX
    ========================= */
 
 body {
   margin: 0;
   background: #f7f3ea;
-  color: #2b2b2b;
   font-family: system-ui, -apple-system, sans-serif;
+  color: #2b2b2b;
 }
 
+/* APP WRAPPER */
 .app {
   max-width: 520px;
   margin: 0 auto;
@@ -21,31 +22,17 @@ body {
   margin-bottom: 28px;
   font-size: 20px;
   font-weight: 600;
-  line-height: 1.4;
-}
-
-/* DECK */
-.deck {
-  background: linear-gradient(145deg, #2f8f8a, #236b68);
-  color: #fff;
-  padding: 32px;
-  border-radius: 18px;
-  text-align: center;
-  cursor: pointer;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
 /* =========================
-   CARD — FIXED PROPORTIONS
+   SHARED CARD BASE (IMPORTANT)
    ========================= */
 
-.card {
-  margin-top: 28px;
+.card,
+.fan-card {
+  width: 320px;
+  aspect-ratio: 3.5 / 5;
 
-  width: 320px;              /* fixed width = card feel */
-  aspect-ratio: 3.5 / 5;     /* REAL playing card proportion */
-
-  padding: 24px;
   border-radius: 18px;
 
   background: linear-gradient(145deg, #2f8f8a, #236b68);
@@ -53,23 +40,18 @@ body {
 
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.16);
 
+  padding: 24px;
+
   position: relative;
   overflow: hidden;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* golden dust */
-.card::before {
+.card::before,
+.fan-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 18px;
   pointer-events: none;
 
   background: radial-gradient(
@@ -79,33 +61,46 @@ body {
   );
 }
 
-/* VOICE */
-.card-voice {
+/* =========================
+   DECK (HOME SCREEN)
+   ========================= */
+
+.deck {
+  background: linear-gradient(145deg, #2f8f8a, #236b68);
+  color: #fff;
+  padding: 32px;
+  border-radius: 18px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  user-select: none;
+  font-size: 16px;
+}
+
+/* =========================
+   CARD CONTENT
+   ========================= */
+
+.card-voice,
+.fan-card .card-voice {
   font-size: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #fff4d2;
   margin-bottom: 12px;
-  opacity: 0.95;
 }
 
-/* MAIN TEXT — FIX READABILITY */
-.card-text {
+.card-text,
+.fan-card .card-text {
   font-size: 18px;
   line-height: 1.6;
   color: #fff7d1;
 }
 
-/* COMMENTARY */
-.card-comment {
-  margin-top: 14px;
-  font-size: 13px;
-  font-style: italic;
-  line-height: 1.6;
-  color: rgba(255, 244, 210, 0.9);
-}
+/* =========================
+   CONTROLS (FUN BUTTON TEXT BACK)
+   ========================= */
 
-/* CONTROLS */
 .controls {
   margin-top: 20px;
   display: flex;
@@ -117,35 +112,50 @@ button {
   padding: 12px 16px;
   border-radius: 12px;
   border: none;
-  background: #fff;
   cursor: pointer;
+  background: #fff;
+  color: #2b2b2b;
+  font-size: 14px;
 }
 
-/* PERSONAL DECK AREA */
+/* =========================
+   PERSONAL DECK — SPREAD (FIXED)
+   ========================= */
+
 .personal-deck {
   margin-top: 24px;
 }
+
+/* SPREAD CONTAINER */
 .fan {
   position: relative;
-  height: 260px;
-  margin-top: 20px;
+  height: 420px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
+/* SPREAD CARDS (VISIBLE, NOT STACKED) */
 .fan-card {
   position: absolute;
 
-  width: 160px;
-  aspect-ratio: 3.5 / 5;
+  transition: transform 0.3s ease;
+}
 
-  background: linear-gradient(145deg, #2f8f8a, #236b68);
-  color: #fff;
+/* =========================
+   INTRO / TEXT
+   ========================= */
 
-  border-radius: 14px;
-  padding: 12px;
+.intro {
+  opacity: 0.8;
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
 
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-
-  transition: transform 0.2s ease;
+.personal-message {
+  opacity: 0.8;
+  margin-bottom: 20px;
+  line-height: 1.6;
 }
