@@ -1,5 +1,6 @@
+
 /* =========================
-   SUNLIT ORACLE — FINAL STRUCTURE FIX
+   SUNLIT ORACLE — STRUCTURED VERSION
    ========================= */
 
 body {
@@ -9,7 +10,6 @@ body {
   color: #2b2b2b;
 }
 
-/* APP WRAPPER */
 .app {
   max-width: 520px;
   margin: 0 auto;
@@ -25,11 +25,12 @@ body {
 }
 
 /* =========================
-   SHARED CARD BASE (IMPORTANT)
+   SHARED CARD BASE
    ========================= */
 
 .card,
-.fan-card {
+.fan-card,
+.deck-card {
   width: 320px;
   aspect-ratio: 3.5 / 5;
 
@@ -44,11 +45,14 @@ body {
 
   position: relative;
   overflow: hidden;
+
+  margin: 0 auto;
 }
 
 /* golden dust */
 .card::before,
-.fan-card::before {
+.fan-card::before,
+.deck-card::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -62,43 +66,66 @@ body {
 }
 
 /* =========================
-   DECK (HOME SCREEN)
+   HOME — REAL DECK STACK
    ========================= */
 
-.deck {
-  background: linear-gradient(145deg, #2f8f8a, #236b68);
-  color: #fff;
-  padding: 32px;
-  border-radius: 18px;
-  text-align: center;
+.deck-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative;
+}
+
+/* stacked illusion */
+.deck-card {
+  position: absolute;
   cursor: pointer;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-  user-select: none;
-  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.deck-card:nth-child(1) {
+  transform: translateY(0px);
+}
+.deck-card:nth-child(2) {
+  transform: translateY(6px);
+  opacity: 0.9;
+}
+.deck-card:nth-child(3) {
+  transform: translateY(12px);
+  opacity: 0.8;
 }
 
 /* =========================
-   CARD CONTENT
+   CARD CONTENT CENTERING FIX
    ========================= */
 
-.card-voice,
-.fan-card .card-voice {
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* THIS fixes vertical centering */
+  text-align: center;
+}
+
+/* voice */
+.card-voice {
   font-size: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #fff4d2;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  opacity: 0.9;
 }
 
-.card-text,
-.fan-card .card-text {
+/* MAIN MESSAGE — centered feel */
+.card-text {
   font-size: 18px;
-  line-height: 1.6;
+  line-height: 1.7;
   color: #fff7d1;
+  margin: 0;
 }
 
 /* =========================
-   CONTROLS (FUN BUTTON TEXT BACK)
+   CONTROLS
    ========================= */
 
 .controls {
@@ -119,28 +146,46 @@ button {
 }
 
 /* =========================
-   PERSONAL DECK — SPREAD (FIXED)
+   PERSONAL DECK — SPREAD (NOT FAN)
    ========================= */
 
 .personal-deck {
   margin-top: 24px;
 }
 
-/* SPREAD CONTAINER */
-.fan {
-  position: relative;
-  height: 420px;
-  margin-top: 30px;
+/* vertical spread like cards on a table */
+.spread {
+  margin-top: 20px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
   align-items: center;
 }
 
-/* SPREAD CARDS (VISIBLE, NOT STACKED) */
-.fan-card {
-  position: absolute;
+/* smaller but same proportions */
+.spread-card {
+  width: 280px;
+  aspect-ratio: 3.5 / 5;
 
-  transition: transform 0.3s ease;
+  border-radius: 16px;
+
+  background: linear-gradient(145deg, #2f8f8a, #236b68);
+  color: #fff;
+
+  padding: 18px;
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* text inside spread cards */
+.spread-card .card-voice {
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+
+.spread-card .card-text {
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 /* =========================

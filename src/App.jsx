@@ -61,22 +61,26 @@ export default function App() {
 
       {/* DECK SCREEN */}
       {screen === "deck" && (
-        <>
-          <div className="intro">
-            <p>Tiny acts of courage.</p>
-            <p>Unexpected perspective shifts.</p>
-            <p>Reminders of who you are.</p>
-          </div>
+  <>
+    <div className="intro">
+      <p>Tiny acts of courage.</p>
+      <p>Unexpected perspective shifts.</p>
+      <p>Reminders of who you are.</p>
+    </div>
 
-          <div className="deck" onClick={drawCard}>
-            TOUCH THE DECK
-          </div>
+    <div className="deck-container" onClick={drawCard}>
+      <div className="deck-card"></div>
+      <div className="deck-card"></div>
+      <div className="deck-card">
+        TOUCH THE DECK
+      </div>
+    </div>
 
-          <button onClick={loadPersonalDeck}>
-            Your deck
-          </button>
-        </>
-      )}
+    <button onClick={loadPersonalDeck}>
+      Your deck
+    </button>
+  </>
+)}
 
       {/* SHUFFLING */}
       {screen === "shuffling" && (
@@ -111,39 +115,28 @@ export default function App() {
 
       {/* PERSONAL DECK — FAN VIEW */}
       {screen === "personal" && (
-        <div className="personal-deck">
+  <div className="personal-deck">
 
-          <h2>Your Deck</h2>
+    <h2>Your Deck</h2>
 
-          <p className="personal-message">
-            These are the patterns you’ve been returning to.
-          </p>
+    <p className="personal-message">
+      These are the patterns you’ve been returning to.
+    </p>
 
-          <button onClick={goDeck}>Back</button>
+    <button onClick={goDeck}>Back</button>
 
-          {savedCards.length === 0 && (
-            <p>No cards yet. Your deck is still becoming itself.</p>
-          )}
+    {savedCards.length === 0 && (
+      <p>No cards yet. Your deck is still becoming itself.</p>
+    )}
 
-          <div className="fan">
-            {savedCards.map((c, i) => (
-              <div
-                key={i}
-                className="fan-card"
-                style={{
-                  transform: `rotate(${(i - savedCards.length / 2) * 6}deg)`,
-                  zIndex: i,
-                }}
-              >
-                <div className="card-voice">{c.card_voice}</div>
-                <div className="card-text">{c.card_text}</div>
-              </div>
-            ))}
-          </div>
-
+    <div className="spread">
+      {savedCards.map((c, i) => (
+        <div key={i} className="spread-card">
+          <div className="card-voice">{c.card_voice}</div>
+          <div className="card-text">{c.card_text}</div>
         </div>
-      )}
-
+      ))}
     </div>
-  );
-}
+
+  </div>
+)}
