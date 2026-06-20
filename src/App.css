@@ -1,127 +1,213 @@
 
 /* =========================
-   SUNLIT ORACLE — STRUCTURED VERSION
+   REBELLION DECK — STABLE VERSION
+   Geometry locked + warm theme
    ========================= */
 
 body {
   margin: 0;
-  background: #f7f3ea;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: Arial, sans-serif;
+
+  background: radial-gradient(circle at center, #f7f3ea, #e9e3d6);
   color: #2b2b2b;
 }
 
+/* =========================
+   APP LAYOUT
+   ========================= */
+
 .app {
-  max-width: 520px;
-  margin: 0 auto;
-  padding: 48px 20px;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .title {
-  text-align: center;
+  font-size: 22px;
   letter-spacing: 3px;
-  margin-bottom: 28px;
-  font-size: 20px;
-  font-weight: 600;
+  margin: 0;
+}
+
+.intro {
+  text-align: center;
+  opacity: 0.75;
+  line-height: 1.8;
+  max-width: 420px;
 }
 
 /* =========================
-   SHARED CARD BASE
+   🔒 GEOMETRY LOCK (CRITICAL)
    ========================= */
 
+.deck,
 .card,
-.fan-card,
-.deck-card {
-  width: 320px;
-  aspect-ratio: 3.5 / 5;
+.card-preview,
+.saved-card {
+  width: 380px;
+  height: 520px;
+  border-radius: 24px;
+  box-sizing: border-box;
+}
 
-  border-radius: 18px;
+/* =========================
+   DECK (HOME)
+   ========================= */
+
+.deck {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  cursor: pointer;
 
   background: linear-gradient(145deg, #2f8f8a, #236b68);
   color: #fff;
 
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 
-  padding: 24px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.18);
 
-  position: relative;
-  overflow: hidden;
-
-  margin: 0 auto;
+  transition: transform 0.25s ease;
 }
 
-/* golden dust */
-.card::before,
-.fan-card::before,
-.deck-card::before {
+.deck:hover {
+  transform: translateY(-4px) rotate(-1deg);
+}
+
+/* deck illusion layers */
+.deck::before,
+.deck::after {
   content: "";
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-
-  background: radial-gradient(
-    circle at 20% 10%,
-    rgba(255, 215, 120, 0.28),
-    transparent 55%
-  );
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  z-index: -1;
 }
 
-/* =========================
-   HOME — REAL DECK STACK
-   ========================= */
-
-.deck-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  position: relative;
-}
-
-/* stacked illusion */
-.deck-card {
-  position: absolute;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.deck-card:nth-child(1) {
-  transform: translateY(0px);
-}
-.deck-card:nth-child(2) {
-  transform: translateY(6px);
+.deck::before {
+  top: 10px;
+  left: 10px;
+  background: linear-gradient(145deg, #277e79, #1e5f5c);
   opacity: 0.9;
 }
-.deck-card:nth-child(3) {
-  transform: translateY(12px);
-  opacity: 0.8;
+
+.deck::after {
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(145deg, #1f6662, #174c49);
+  opacity: 0.7;
 }
 
 /* =========================
-   CARD CONTENT CENTERING FIX
+   CARD (DRAWN)
    ========================= */
 
 .card {
+  background: linear-gradient(145deg, #2f8f8a, #236b68);
+  color: #fff;
+
+  border: 1px solid rgba(255, 215, 120, 0.25);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.18);
+
   display: flex;
   flex-direction: column;
-  justify-content: center;   /* THIS fixes vertical centering */
+
+  justify-content: space-between; /* top / middle / bottom structure */
+
+  align-items: center;
+
+  padding: 40px;
   text-align: center;
+
+  animation: cardIn 0.6s ease;
 }
 
-/* voice */
+/* voice label */
 .card-voice {
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
+
   color: #fff4d2;
-  margin-bottom: 16px;
-  opacity: 0.9;
+
+  margin-top: 6px;
 }
 
-/* MAIN MESSAGE — centered feel */
+/* main message (centered feel) */
 .card-text {
-  font-size: 18px;
+  font-size: 22px;
   line-height: 1.7;
-  color: #fff7d1;
-  margin: 0;
+  max-width: 280px;
+
+  color: #f6e7b7;
+
+  /* ensures true vertical centering zone */
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-comment {
+  font-size: 13px;
+  font-style: italic;
+  font-family: Georgia, serif;
+
+  opacity: 0.75;
+  color: #fff4d2;
+
+  margin-bottom: 6px;
+}
+
+/* =========================
+   SAVED CARD
+   ========================= */
+
+.saved-card {
+  background: linear-gradient(145deg, #2f8f8a, #236b68);
+  color: #fff;
+
+  border: 1px solid rgba(255, 215, 120, 0.18);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 28px;
+  text-align: center;
+
+  /* ✨ table feel */
+  transform: rotate(var(--r, 0deg));
+  transition: transform 0.2s ease;
+}
+.saved-card:nth-child(3n) {
+  --r: -2deg;
+}
+
+.saved-card:nth-child(3n + 1) {
+  --r: 1.5deg;
+}
+
+.saved-card:nth-child(3n + 2) {
+  --r: -1deg;
+}
+
+.saved-card:hover {
+  transform: scale(1.03) rotate(0deg);
+  z-index: 2;
 }
 
 /* =========================
@@ -129,78 +215,122 @@ body {
    ========================= */
 
 .controls {
-  margin-top: 20px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 button {
-  padding: 12px 16px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+
+  background: #ffffff;
+  color: #2b2b2b;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+button:hover {
+  background: #f2f2f2;
+}
+
+/* =========================
+   SAVE INPUT AREA
+   ========================= */
+
+.save-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 20px;
+  padding: 40px;
+  text-align: center;
+}
+
+input {
+  width: 280px;
+  padding: 14px;
+
   border-radius: 12px;
   border: none;
-  cursor: pointer;
-  background: #fff;
-  color: #2b2b2b;
+  outline: none;
+
+  text-align: center;
   font-size: 14px;
 }
 
 /* =========================
-   PERSONAL DECK — SPREAD (NOT FAN)
+   ANIMATIONS (CLEAN)
    ========================= */
 
-.personal-deck {
-  margin-top: 24px;
+.shuffling {
+  animation: pulse 1s infinite;
 }
 
-/* vertical spread like cards on a table */
-.spread {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: center;
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.85; }
 }
 
-/* smaller but same proportions */
-.spread-card {
-  width: 280px;
-  aspect-ratio: 3.5 / 5;
-
-  border-radius: 16px;
-
-  background: linear-gradient(145deg, #2f8f8a, #236b68);
-  color: #fff;
-
-  padding: 18px;
-
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-}
-
-/* text inside spread cards */
-.spread-card .card-voice {
-  font-size: 11px;
-  margin-bottom: 10px;
-}
-
-.spread-card .card-text {
-  font-size: 16px;
-  line-height: 1.6;
+@keyframes cardIn {
+  0% { opacity: 0; transform: translateY(25px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* =========================
-   INTRO / TEXT
+   PERSONAL DECK
    ========================= */
 
-.intro {
-  opacity: 0.8;
-  text-align: center;
-  margin-bottom: 24px;
-  line-height: 1.6;
+.personal-deck {
+  display: grid;
+
+  /* spread layout */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+  justify-items: center;
+  align-items: center;
+
+  gap: 30px;
+
+  padding: 40px;
+
+  width: 100%;
+  max-width: 1100px;
 }
 
 .personal-message {
-  opacity: 0.8;
-  margin-bottom: 20px;
+  opacity: 0.85;
+  font-style: italic;
+  text-align: center;
+  max-width: 320px;
+}
+.save-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.saved-card .card-voice {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff4d2;
+  margin-top: 4px;
+}
+
+.saved-card .card-text {
+  font-size: 20px;
   line-height: 1.6;
+  color: #f6e7b7;
+
+  /* ensures true middle balance */
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
